@@ -1,7 +1,7 @@
 package tsp.aco.ants;
 
 import graph.AdjacencyMatrix;
-import tsp.aco.Environment;
+import tsp.aco.enironment.Environment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -52,5 +52,9 @@ public class Ant {
 
     public void setInitialNode(int node){
         tabuList.add(node);
+    }
+
+    public int getInitialNode(){
+        return tabuList.get(0);
     }
 }

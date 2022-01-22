@@ -2,6 +2,7 @@ package tsp.aco;
 
 import graph.AdjacencyMatrix;
 import tsp.NearestNeighbour;
+import tsp.aco.enironment.Environment;
 import tsp.util.PathCost;
 import tsp.aco.ants.Ant;
 import tsp.aco.ants.Colony;
@@ -14,6 +15,7 @@ public class ACOAlgorithm {
     private final double beta;
     private int size;
     private final boolean DAS;
+    private AdjacencyMatrix graph;
 
     public ACOAlgorithm(double alpha, double beta, boolean DAS) {
         this.alpha = alpha;
@@ -22,7 +24,7 @@ public class ACOAlgorithm {
         this.size = 0;
     }
 
-    public int solveTSP(AdjacencyMatrix graph){
+    public int solveTSP(AdjacencyMatrix graph) {
         setGraph(graph);
 
         Colony colony = new Colony(size, alpha, beta);
@@ -32,27 +34,34 @@ public class ACOAlgorithm {
         for (int i = 0; i < size; i++) {
             colony.scatterAnts();
             for (Ant ant : colony.getAnts()) {
-                List<Integer> tour = new ArrayList<>();
+                List<Integer> tour = new ArrayList<>(List.of(ant.getInitialNode()));
                 for (int j = 0; j < size; j++) {
-                    tour.add(ant.nextNode(graph, environment));
-                    //todo: transition in the environment
+                    int recentNode = tour.get(tour.size() - 1);
+                    int nextNode = ant.nextNode(graph, environment);
+                    performTransition(ant, recentNode, nextNode, tour, environment);
                 }
-                tour.add(tour.get(0));
-                //todo: transition in the environment
+                performTransition(ant, tour.get(tour.size() - 1), tour.get(0), tour, environment);
                 int tourCost = PathCost.get(graph, tour).intValue();
 
-                if (tourCost < solution){
+                if (tourCost < solution) {
                     solution = tourCost;
                 }
             }
             colony.clearTabuLists();
-            //todo: pheromone evaporation
+            environment.updatePheromoneAmounts();
         }
 
         return solution;
     }
 
-    private void setGraph(AdjacencyMatrix graph){
+    private void setGraph(AdjacencyMatrix graph) {
+        this.graph = graph;
         this.size = graph.getSize();
+    }
+
+    private void performTransition(Ant ant, int start, int finish, List<Integer> tour, Environment environment) {
+        double pheromoneAmount = ant.getPheromone(graph.getCost(start, finish), DAS);
+        tour.add(finish);
+        environment.transition(start, finish, pheromoneAmount);
     }
 }
