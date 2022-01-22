@@ -8,7 +8,7 @@ import java.util.Map;
 public class Environment {
     private final double[][] environment;
     private final int size;
-    private Map<Integer, List<Transition>> transitions;
+    private final Map<Integer, List<Transition>> transitions;
     private final double evaporationFactor;
 
     public Environment(int size, double evaporationFactor, double estimatedPathCost) {
@@ -40,7 +40,7 @@ public class Environment {
         if (transitions.containsKey(start)) {
             transitions.get(start).add(new Transition(finish, pheromoneAmount));
         } else {
-            transitions.put(start, new ArrayList<Transition>(List.of(new Transition(finish, pheromoneAmount))));
+            transitions.put(start, new ArrayList<>(List.of(new Transition(finish, pheromoneAmount))));
         }
     }
 

@@ -21,7 +21,6 @@ public class ACOAlgorithm {
         this.alpha = alpha;
         this.beta = beta;
         this.DAS = DAS;
-        this.size = 0;
     }
 
     public int solveTSP(AdjacencyMatrix graph) {
@@ -31,11 +30,11 @@ public class ACOAlgorithm {
         Environment environment = new Environment(size, 0.5, NearestNeighbour.solveTSP(graph));
         int solution = Integer.MAX_VALUE;
 
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < 100; i++) {
             colony.scatterAnts();
             for (Ant ant : colony.getAnts()) {
                 List<Integer> tour = new ArrayList<>(List.of(ant.getInitialNode()));
-                for (int j = 0; j < size; j++) {
+                for (int j = 0; j < size - 1; j++) {
                     int recentNode = tour.get(tour.size() - 1);
                     int nextNode = ant.nextNode(graph, environment);
                     performTransition(ant, recentNode, nextNode, tour, environment);
