@@ -6,10 +6,10 @@ import java.util.List;
 public class Ant {
     private List<Integer> tabuList;
     private final int listSize;
-    private final Number alpha;
-    private final Number beta;
+    private final int alpha;
+    private final int beta;
 
-    public Ant(int tabuListSize, Number alpha, Number beta) {
+    public Ant(int tabuListSize, int alpha, int beta) {
         listSize = tabuListSize;
         tabuList = new ArrayList<>(listSize);
         this.alpha = alpha;
