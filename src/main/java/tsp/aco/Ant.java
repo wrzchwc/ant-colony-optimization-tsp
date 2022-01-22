@@ -1,23 +1,21 @@
-package aco;
+package tsp.aco.ants;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Ant {
     private List<Integer> tabuList;
-    private final int listSize;
     private final int alpha;
     private final int beta;
 
-    public Ant(int tabuListSize, int alpha, int beta) {
-        listSize = tabuListSize;
-        tabuList = new ArrayList<>(listSize);
+    public Ant(int alpha, int beta) {
+        tabuList = new ArrayList<>();
         this.alpha = alpha;
         this.beta = beta;
     }
 
     public void clearTabuList() {
-        tabuList = new ArrayList<>(listSize);
+        tabuList = new ArrayList<>();
     }
 
     public Number getPheromone(Number distance, boolean DAS) {

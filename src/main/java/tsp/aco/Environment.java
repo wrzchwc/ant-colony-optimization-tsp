@@ -1,7 +1,6 @@
-package aco;
+package tsp.aco;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class Environemt {
@@ -10,7 +9,7 @@ public class Environemt {
     private List<int[]> transtions;
     private final double evaporationFactor;
 
-    public Environemt(int size, double evaporationFactor, int estimatedPathCost) {
+    public Environemt(int size, double evaporationFactor, double estimatedPathCost) {
         this.evaporationFactor = evaporationFactor;
         this.size = size;
         this.environment = new double[size][size];
@@ -18,7 +17,7 @@ public class Environemt {
         transtions = new ArrayList<>(size);
     }
 
-    private void setInitialPheromoneAmounts(int estimatedPathCost) {
+    private void setInitialPheromoneAmounts(double estimatedPathCost) {
         double pheromoneAmount = (double) size / estimatedPathCost;
         for (double[] row : environment) {
             for (double cell : row) {

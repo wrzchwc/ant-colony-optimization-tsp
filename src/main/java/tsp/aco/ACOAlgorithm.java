@@ -3,7 +3,6 @@ package aco;
 import graph.AdjacencyMatrix;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class ACOAlgorithm {
@@ -38,7 +37,7 @@ public class ACOAlgorithm {
     private List<Ant> getColony(){
         List<Ant> colony = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {
-            colony.add(new Ant(size-1, alpha, beta));
+            colony.add(new Ant(alpha, beta));
         }
         return colony;
     }
