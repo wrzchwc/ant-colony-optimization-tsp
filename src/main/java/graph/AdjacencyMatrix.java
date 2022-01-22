@@ -2,7 +2,6 @@ package graph;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -47,7 +46,7 @@ public class AdjacencyMatrix {
         return size;
     }
 
-    public Double getData(int row, int column) {
+    public Double getCost(int row, int column) {
         return matrix[row][column];
     }
 

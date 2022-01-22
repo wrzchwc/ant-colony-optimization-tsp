@@ -3,25 +3,25 @@ package tsp.aco;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Environemt {
+public class Environment {
     private final double[][] environment;
     private final int size;
     private List<int[]> transtions;
     private final double evaporationFactor;
 
-    public Environemt(int size, double evaporationFactor, double estimatedPathCost) {
+    public Environment(int size, double evaporationFactor, double estimatedPathCost) {
         this.evaporationFactor = evaporationFactor;
         this.size = size;
         this.environment = new double[size][size];
+        this.transtions = new ArrayList<>();
         setInitialPheromoneAmounts(estimatedPathCost);
-        transtions = new ArrayList<>(size);
     }
 
     private void setInitialPheromoneAmounts(double estimatedPathCost) {
         double pheromoneAmount = (double) size / estimatedPathCost;
-        for (double[] row : environment) {
-            for (double cell : row) {
-                cell = pheromoneAmount;
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                environment[i][j] = pheromoneAmount;
             }
         }
     }
@@ -30,14 +30,10 @@ public class Environemt {
         return environment[row][column];
     }
 
-//    public void transition(int start, int finish, double pheromoneAmount) {
-//        environment[start][finish] += pheromoneAmount;
-//        transtions.add(new int[]{start, finish});
-//    }
+    public int getSize() {
+        return size;
+    }
 
-//    public void clearTransitions(){
-//        transtions = new ArrayList<>(size);
-//    }
 
 
 }

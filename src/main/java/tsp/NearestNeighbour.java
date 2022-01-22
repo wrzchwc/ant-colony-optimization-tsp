@@ -6,10 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class NearestNeighbour {
-    private static AdjacencyMatrix matrix;
 
     public static double get(AdjacencyMatrix matrix) {
-        NearestNeighbour.matrix = matrix;
         int size = matrix.getSize();
         List<Integer> unvisited = getIndexes(size);
         List<Integer> solution = new ArrayList<>(List.of(0));
@@ -21,7 +19,7 @@ public class NearestNeighbour {
             unvisited.remove((Integer) v);
         }
         solution.add(0);
-        return getCost(solution);
+        return PathCost.get(matrix, solution);
     }
 
     private static List<Integer> getIndexes(int size) {
@@ -36,20 +34,12 @@ public class NearestNeighbour {
         int min = Integer.MAX_VALUE;
         int index = 0;
         for (Number u : unvisited) {
-            int value = matrix.getData(row, u.intValue()).intValue();
+            int value = matrix.getCost(row, u.intValue()).intValue();
             if (value < min) {
                 min = value;
                 index = u.intValue();
             }
         }
         return index;
-    }
-
-    private static double getCost(List<Integer> list) {
-        double cost = 0.0;
-        for (int i = 0; i < list.size() - 1; i++) {
-            cost += matrix.getData(list.get(i), list.get(i + 1));
-        }
-        return cost;
     }
 }
