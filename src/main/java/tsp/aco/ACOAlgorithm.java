@@ -2,7 +2,9 @@ package tsp.aco;
 
 import graph.AdjacencyMatrix;
 import tsp.NearestNeighbour;
-import tsp.PathCost;
+import tsp.util.PathCost;
+import tsp.aco.ants.Ant;
+import tsp.aco.ants.Colony;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,13 +25,13 @@ public class ACOAlgorithm {
     public int solveTSP(AdjacencyMatrix graph){
         setGraph(graph);
 
-        List<Ant> colony = getColony();
-        Environment environment = new Environment(size, 0.5, NearestNeighbour.get(graph));
+        Colony colony = new Colony(size, alpha, beta);
+        Environment environment = new Environment(size, 0.5, NearestNeighbour.solveTSP(graph));
         int solution = Integer.MAX_VALUE;
 
         for (int i = 0; i < size; i++) {
-            //todo: ants scattering
-            for (Ant ant:colony) {
+            colony.scatterAnts();
+            for (Ant ant : colony.getAnts()) {
                 List<Integer> tour = new ArrayList<>();
                 for (int j = 0; j < size; j++) {
                     tour.add(ant.nextNode(graph, environment));
@@ -43,6 +45,7 @@ public class ACOAlgorithm {
                     solution = tourCost;
                 }
             }
+            colony.clearTabuLists();
             //todo: pheromone evaporation
         }
 
@@ -51,13 +54,5 @@ public class ACOAlgorithm {
 
     private void setGraph(AdjacencyMatrix graph){
         this.size = graph.getSize();
-    }
-
-    private List<Ant> getColony(){
-        List<Ant> colony = new ArrayList<>();
-        for (int i = 0; i < size; i++) {
-            colony.add(new Ant(alpha, beta));
-        }
-        return colony;
     }
 }

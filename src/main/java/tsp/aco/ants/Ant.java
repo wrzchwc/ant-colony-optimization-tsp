@@ -1,6 +1,7 @@
-package tsp.aco;
+package tsp.aco.ants;
 
 import graph.AdjacencyMatrix;
+import tsp.aco.Environment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -47,5 +48,9 @@ public class Ant {
 
     private double transitionProbability(double pheromoneAmount, double distance) {
         return Math.pow(pheromoneAmount, alpha) * Math.pow(distance, -beta);
+    }
+
+    public void setInitialNode(int node){
+        tabuList.add(node);
     }
 }

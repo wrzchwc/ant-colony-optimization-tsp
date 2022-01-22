@@ -1,15 +1,16 @@
 package tsp;
 
 import graph.AdjacencyMatrix;
+import tsp.util.Indexes;
+import tsp.util.PathCost;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class NearestNeighbour {
 
-    public static double get(AdjacencyMatrix matrix) {
-        int size = matrix.getSize();
-        List<Integer> unvisited = getIndexes(size);
+    public static double solveTSP(AdjacencyMatrix matrix) {
+        List<Integer> unvisited = Indexes.get(matrix.getSize());
         List<Integer> solution = new ArrayList<>(List.of(0));
         unvisited.remove(0);
         int v = 0;
@@ -20,14 +21,6 @@ public class NearestNeighbour {
         }
         solution.add(0);
         return PathCost.get(matrix, solution);
-    }
-
-    private static List<Integer> getIndexes(int size) {
-        List<Integer> tmp = new ArrayList<>();
-        for (int i = 0; i < size; i++) {
-            tmp.add(i);
-        }
-        return tmp;
     }
 
     private static int getIndexOfNearest(AdjacencyMatrix matrix, List<Integer> unvisited, int row) {

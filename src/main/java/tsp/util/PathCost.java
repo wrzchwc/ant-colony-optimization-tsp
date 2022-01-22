@@ -1,4 +1,4 @@
-package tsp;
+package tsp.util;
 
 import graph.AdjacencyMatrix;
 
