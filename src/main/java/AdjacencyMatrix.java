@@ -1,20 +1,24 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class AdjacencyMatrix {
-    private int[][] matrix;
+    private Number[][] matrix;
     private int size;
+    private final boolean integralValues;
 
-    public AdjacencyMatrix(String filepath) {
+    public AdjacencyMatrix(String filepath, boolean integralValues) {
+        this.integralValues = integralValues;
         try {
             File file = new File(filepath);
             Scanner scanner = new Scanner(file);
             scanner.nextLine();
             this.size = Integer.parseInt(scanner.nextLine());
-            this.matrix = new int[this.size][this.size];
+            this.matrix = new Number[this.size][this.size];
             List<String[]> lines = new ArrayList<>();
 
             for (int i = 0; i < size; i++) {
@@ -26,15 +30,20 @@ public class AdjacencyMatrix {
         } catch (FileNotFoundException exception) {
             System.out.println("File named " + filepath + " not found!");
             this.size = 0;
-            this.matrix = new int[0][0];
+            this.matrix = new Number[0][0];
+        } catch (ParseException exception){
+            System.out.println("Error while parsing data!");
+            this.size = 0;
+            this.matrix = new Number[0][0];
         }
     }
 
-    private void initializeMatrix(List<String[]> lines) {
+    private void initializeMatrix(List<String[]> lines) throws ParseException {
+        NumberFormat format = NumberFormat.getNumberInstance();
         int row = 0;
         for (String[] line : lines) {
             for (int i = 0; i < line.length; i++) {
-                matrix[row][i] = Integer.parseInt(line[i]);
+                matrix[row][i] = format.parse(line[i]);
             }
             row++;
         }
@@ -44,8 +53,12 @@ public class AdjacencyMatrix {
         return size;
     }
 
-    public int getData(int row, int column) {
-        return matrix[row][column];
+    public Number getData(int row, int column) {
+        Number data = matrix[row][column];
+        if (integralValues){
+            return data.intValue();
+        }
+        return data.doubleValue();
     }
 
     public void print() {
