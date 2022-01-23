@@ -1,21 +1,16 @@
 package tsp.aco.enironment;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class Environment {
-    private final double[][] environment;
+    private final double evaporation;
     private final int size;
-    private final Map<Integer, List<Transition>> transitions;
-    private final double evaporationFactor;
+    private final double[][] environment;
+    private double[][] transitions;
 
-    public Environment(int size, double evaporationFactor, double estimatedPathCost) {
-        this.evaporationFactor = evaporationFactor;
+    public Environment(int size, double evaporation, double estimatedPathCost) {
+        this.evaporation = evaporation;
         this.size = size;
         this.environment = new double[size][size];
-        this.transitions = new HashMap<>(size);
+        this.transitions = new double[size][size];
         setInitialPheromoneAmounts(estimatedPathCost);
     }
 
@@ -37,27 +32,19 @@ public class Environment {
     }
 
     public void transition(int start, int finish, double pheromoneAmount) {
-        if (transitions.containsKey(start)) {
-            transitions.get(start).add(new Transition(finish, pheromoneAmount));
-        } else {
-            transitions.put(start, new ArrayList<>(List.of(new Transition(finish, pheromoneAmount))));
-        }
+        environment[start][finish] += pheromoneAmount;
+        transitions[start][finish] += pheromoneAmount;
     }
 
     public void updatePheromoneAmounts() {
         pheromoneEvaporation();
-        for (Integer index : transitions.keySet()) {
-            for (Transition transition : transitions.get(index)) {
-                environment[index][transition.getFinish()] += transition.getPheromoneAmount();
-            }
-            transitions.get(index).clear();
-        }
+        transitions = new double[size][size];
     }
 
     private void pheromoneEvaporation() {
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
-                environment[i][j] *= evaporationFactor;
+                environment[i][j] = (environment[i][j] - transitions[i][j]) * evaporation + transitions[i][j];
             }
         }
     }
