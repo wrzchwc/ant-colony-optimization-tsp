@@ -30,8 +30,9 @@ public class ACOAlgorithm {
     public int solveTSP(AdjacencyMatrix graph) {
         Colony colony = new Colony(size, alpha, beta);
         int solution = Integer.MAX_VALUE;
+        int iterations = (int) Math.ceil(1750.0 / size);
 
-        for (int i = 0; i < 125; i++) {
+        for (int i = 0; i < iterations; i++) {
             colony.scatterAnts();
             for (Ant ant : colony.getAnts()) {
                 List<Integer> tour = new ArrayList<>(List.of(ant.getInitialNode()));
