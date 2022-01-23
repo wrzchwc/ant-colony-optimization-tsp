@@ -5,3 +5,5 @@ src/main/resources/instances/m10.txt
 src/main/resources/instances/m8.txt
 src/main/resources/instances/m9.txt
 src/main/resources/instances/tsp_6_1.txt
+out
+src/main/java/META-INF
