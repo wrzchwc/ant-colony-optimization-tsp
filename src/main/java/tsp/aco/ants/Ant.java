@@ -3,10 +3,8 @@ package tsp.aco.ants;
 import graph.AdjacencyMatrix;
 import tsp.aco.enironment.Environment;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class Ant {
     private final List<Integer> tabuList;
@@ -28,33 +26,53 @@ public class Ant {
     }
 
     public int nextNode(AdjacencyMatrix graph, Environment environment) {
-        Map<Double, Integer> probabilities = new HashMap<>();
         int currentNode = tabuList.get(tabuList.size() - 1);
         int size = environment.getSize();
+        double sumOfProbabilities = 0.0;
+        Map<Double, Integer> probabilities = new TreeMap<>();
 
         for (int i = 0; i < size; i++) {
             if (!tabuList.contains(i)) {
                 double pheromoneAmount = environment.getPheromoneAmount(currentNode, i);
                 double distance = graph.getCost(currentNode, i);
-                probabilities.put(transitionProbability(pheromoneAmount, distance), i);
+                double probability = transitionProbability(pheromoneAmount, distance);
+                probabilities.put(probability, i);
+                sumOfProbabilities += probability;
             }
         }
-
-        int nextNode = probabilities.get(probabilities.keySet().stream().max(Double::compareTo).get());
+        int nextNode = probabilities.get(probabilities.keySet()
+                .stream()
+                .collect(Collectors.toUnmodifiableList())
+                .get(getIndex(sumOfProbabilities, probabilities.keySet()))
+        );
         tabuList.add(nextNode);
 
         return nextNode;
+    }
+
+    private int getIndex(double sumOfProbabilities, Set<Double> probabilities) {
+        double value = Math.random() * sumOfProbabilities;
+        double sum = 0.0;
+        int next = -1;
+
+        Iterator<Double> iterator = probabilities.iterator();
+        while (sum < value && iterator.hasNext()) {
+            sum += iterator.next();
+            next++;
+        }
+
+        return next;
     }
 
     private double transitionProbability(double pheromoneAmount, double distance) {
         return Math.pow(pheromoneAmount, alpha) * Math.pow(distance, -beta);
     }
 
-    public void setInitialNode(int node){
+    public void setInitialNode(int node) {
         tabuList.add(node);
     }
 
-    public int getInitialNode(){
+    public int getInitialNode() {
         return tabuList.get(0);
     }
 }
