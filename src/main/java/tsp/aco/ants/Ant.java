@@ -56,7 +56,7 @@ public class Ant {
         int next = -1;
 
         Iterator<Double> iterator = probabilities.iterator();
-        while (sum < value && iterator.hasNext()) {
+        while (sum <= value && iterator.hasNext()) {
             sum += iterator.next();
             next++;
         }

@@ -31,7 +31,7 @@ public class ACOAlgorithm {
         Colony colony = new Colony(size, alpha, beta);
         int solution = Integer.MAX_VALUE;
 
-        for (int i = 0; i < 13; i++) {
+        for (int i = 0; i < 125; i++) {
             colony.scatterAnts();
             for (Ant ant : colony.getAnts()) {
                 List<Integer> tour = new ArrayList<>(List.of(ant.getInitialNode()));
