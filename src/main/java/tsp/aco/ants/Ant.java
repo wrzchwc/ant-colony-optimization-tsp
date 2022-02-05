@@ -61,12 +61,13 @@ public class Ant {
             next++;
         }
 
-        return next;
+        return next == -1 ? 0 : next;
     }
 
     private double transitionProbability(double pheromoneAmount, double distance) {
         return Math.pow(pheromoneAmount, alpha) * Math.pow(distance, -beta);
     }
+
 
     public void setInitialNode(int node) {
         tabuList.add(node);
