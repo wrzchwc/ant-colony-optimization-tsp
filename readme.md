@@ -95,7 +95,7 @@ where:
 
 ## Research results
 
-The experiment has been carried out at 24 January 2022. The experiment results has been presented on the following
+The experiment was carried out at 24 January 2022. The experiment results has been presented on the following
 charts.
 
 ![](src/main/resources/charts/time.png)
