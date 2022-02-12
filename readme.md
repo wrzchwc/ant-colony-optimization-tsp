@@ -21,7 +21,7 @@ The instances are also available in the `src/main/resources/instances` directory
 
 ## Algorithm variants
 
-The source contains implementation of 2 `pheromone distribution systems` :
+The source code contains implementation of 2 `pheromone distribution systems` :
 
 - **DAS** (*ants density*) - the amount of distributed pheromone is proportional to the cost of edge between two nodes (
   constant amount of pheromone per length unit)
