@@ -2,7 +2,7 @@
 
 ## Context
 
-The project was created as one of the tasks during Effective Algorithms Design, during my studies
+The project was created as one of the tasks during Effective Algorithms Design course, during my studies
 at [Wroclaw University of Science and Technology](https://pwr.edu.pl/en/).
 
 ## Introduction
